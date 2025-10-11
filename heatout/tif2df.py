@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import rasterio
+from config import *
 
 def tif_to_df(filepath):
     with rasterio.open(filepath) as src:

@@ -1,8 +1,12 @@
-import ee
 import os
+import ee
+import numpy as np
 import pandas as pd
+import requests
+from tif2df import tif_to_df
+from config import *
 
-def dowcon_day(date):
+def dowcon_day(dataset, aoi, date):
     day_start = ee.Date(date)
     day_end = day_start.advance(1, 'day')
     filtered_dataset = dataset.filterDate(day_start, day_end).select(bands)
@@ -15,8 +19,8 @@ def dowcon_day(date):
     clipped_image = single_image.clip(aoi)
     
     year = day_start.format('YYYY').getInfo()
-    tiff_dir = os.path.join('../dataset/tiff', year)
-    csv_dir = os.path.join('../dataset/csv', year)
+    tiff_dir = os.path.join('dataset/tiff', year)
+    csv_dir = os.path.join('dataset/csv', year)
     os.makedirs(tiff_dir, exist_ok=True)
     os.makedirs(csv_dir, exist_ok=True)
     
