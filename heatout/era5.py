@@ -4,6 +4,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from config import *
+from tif2df import tif_to_df
 
 import numpy as np
 import pandas as pd
@@ -24,3 +25,4 @@ start_date = '2016-01-01'
 end_date = '2025-09-30'
 
 dataset = ee.ImageCollection(collection)
+
