@@ -3,7 +3,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from config import project_id, coordinates
+from config import *
 
 import numpy as np
 import pandas as pd
@@ -19,3 +19,8 @@ ee.Initialize(project=project_id)
 aoi = ee.Geometry.Polygon(coordinates, proj='EPSG:4326', geodesic=False)
 
 # print(aoi.getInfo())
+
+start_date = '2016-01-01'
+end_date = '2025-09-30'
+
+dataset = ee.ImageCollection(collection)
