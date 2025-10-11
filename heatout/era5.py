@@ -14,8 +14,6 @@ ee.Initialize(project=project_id)
 
 aoi = ee.Geometry.Polygon(coordinates, proj='EPSG:4326', geodesic=False)
 
-# print(aoi.getInfo())
-
 dataset = ee.ImageCollection(collection)
 
 start_date = '2016-01-01'
