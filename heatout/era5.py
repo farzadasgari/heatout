@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from config import *
 from tif2df import tif_to_df
-
+from dowcon import dowcon_day
 import numpy as np
 import pandas as pd
 import ee
