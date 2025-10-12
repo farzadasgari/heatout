@@ -19,8 +19,8 @@ def dowcon_day(dataset, aoi, date):
     clipped_image = single_image.clip(aoi)
     
     year = day_start.format('YYYY').getInfo()
-    tiff_dir = os.path.join('dataset/tiff', year)
-    csv_dir = os.path.join('dataset/csv', year)
+    tiff_dir = os.path.join('dataset/era5/tiff', year)
+    csv_dir = os.path.join('dataset/era5/csv', year)
     os.makedirs(tiff_dir, exist_ok=True)
     os.makedirs(csv_dir, exist_ok=True)
     
