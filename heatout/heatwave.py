@@ -20,3 +20,20 @@ def average_plus5(daily_temps, duration=3):
     mean_temp = np.mean(daily_temps)
     threshold = mean_temp + 5.0
     return constant_threshold(daily_temps, threshold, duration)
+
+
+def upper_tail_percentile(daily_temps, percentile=90, window=15, duration=3):
+    num_days = len(daily_temps)
+    days_per_year = 365
+    num_years = num_days // days_per_year
+    temps_2d = daily_temps.reshape(num_years, days_per_year)
+    
+    thresholds = np.zeros(days_per_year)
+    for doy in range(days_per_year):
+        start = max(0, doy - window // 2)
+        end = min(days_per_year, doy + window // 2 + 1)
+        local_temps = temps_2d[:, start:end].flatten()
+        thresholds[doy] = np.percentile(local_temps, percentile)
+    
+    full_thresholds = np.tile(thresholds, num_years)
+    return constant_threshold(daily_temps, full_thresholds, duration)
