@@ -48,3 +48,16 @@ def summer_derived_threshold(daily_temps, percentile=90, summer_start_doy=152, s
     summer_temps = temps_2d[:, summer_start_doy-1:summer_end_doy].flatten()
     threshold = np.percentile(summer_temps, percentile)
     return constant_threshold(daily_temps, threshold, duration)
+
+
+def excess_heat_factor(daily_temps, ehf_threshold=0.0):
+    t95 = np.percentile(daily_temps, 95)
+    ehf_values = np.zeros(len(daily_temps))
+    for i in range(2, len(daily_temps)):
+        three_day_avg = np.mean(daily_temps[i-2:i+1])
+        ehi_sig = three_day_avg - t95
+        prior_avg = np.mean(daily_temps[max(0, i-32):i-2]) if i > 2 else 0
+        ehi_accl = three_day_avg - prior_avg
+        ehf_values[i] = ehi_sig * max(1, ehi_accl)
+    binary = (ehf_values >= ehf_threshold).astype(int)
+    return ehf_values, binary
