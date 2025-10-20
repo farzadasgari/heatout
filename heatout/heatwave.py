@@ -61,3 +61,27 @@ def excess_heat_factor(daily_temps, ehf_threshold=0.0):
         ehf_values[i] = ehi_sig * max(1, ehi_accl)
     binary = (ehf_values >= ehf_threshold).astype(int)
     return ehf_values, binary
+
+
+def standardized_heat_index(daily_temps, window=15, shi_threshold=1.0):
+    num_days = len(daily_temps)
+    days_per_year = 365
+    num_years = num_days // days_per_year
+    temps_2d = daily_temps.reshape(num_years, days_per_year)
+    
+    shi_values = np.zeros(num_days)
+    for i in range(2, num_days):
+        doy = (i % days_per_year)
+        start = max(0, doy - window // 2)
+        end = min(days_per_year, doy + window // 2 + 1)
+        local_temps = temps_2d[:, start:end].flatten()
+        three_day_avg = np.mean(daily_temps[i-2:i+1])
+        
+        sorted_temps = np.sort(local_temps)
+        ranks = np.searchsorted(sorted_temps, three_day_avg) + 1
+        n = len(local_temps)
+        p = (ranks - 0.44) / (n + 0.12)
+        shi_values[i] = norm.ppf(p) if 0 < p < 1 else 0
+    
+    binary = (shi_values >= shi_threshold).astype(int)
+    return shi_values, binary
