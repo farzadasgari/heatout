@@ -37,3 +37,14 @@ def upper_tail_percentile(daily_temps, percentile=90, window=15, duration=3):
     
     full_thresholds = np.tile(thresholds, num_years)
     return constant_threshold(daily_temps, full_thresholds, duration)
+
+
+def summer_derived_threshold(daily_temps, percentile=90, summer_start_doy=152, summer_end_doy=243, duration=3):
+    num_days = len(daily_temps)
+    days_per_year = 365
+    num_years = num_days // days_per_year
+    temps_2d = daily_temps.reshape(num_years, days_per_year)
+    
+    summer_temps = temps_2d[:, summer_start_doy-1:summer_end_doy].flatten()
+    threshold = np.percentile(summer_temps, percentile)
+    return constant_threshold(daily_temps, threshold, duration)
