@@ -1,3 +1,4 @@
+**/.ipynb_checkpoints/
 __pycache__/
 *.pyc
 *.pyo
@@ -7,3 +8,4 @@ __pycache__/
 dataset/
 venv/
 config.py
+.idea/
