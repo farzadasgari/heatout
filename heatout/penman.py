@@ -18,7 +18,6 @@ def compute_penman_monteith_et0(
     net_thermal_radiation: ArrayLike,
     dates: Optional[ArrayLike] = None,
     output_path: Optional[str] = None,
-    units: Optional[str] = None,
 ) -> np.ndarray:
 
     def to_quantity(value, default_unit):
@@ -58,3 +57,17 @@ def compute_penman_monteith_et0(
     Rn_daily = Rn_sw_daily + Rn_lw_daily
 
     G = 0 * ureg.megajoule / ureg.meter**2 / ureg.day
+
+    term1 = delta * (Rn_daily - G)
+    term2 = gamma * (900 / T.to(ureg.kelvin).magnitude) * u2 * es_ea
+    
+    numerator = term1 + term2
+    denominator = delta + gamma * (1 + 0.34 * u2.to(ureg.meter/ureg.second).magnitude)
+    
+    et0 = (0.408 * numerator / denominator).to(ureg.millimeter / ureg.day)
+
+    if output_path and dates is not None:
+        df = pd.DataFrame({'date': dates, 'ET0(mm/day)': et0.magnitude})
+        df.to_csv(output_path, index=False)
+    
+    return et0.magnitude
