@@ -50,3 +50,5 @@ def compute_penman_monteith_et0(
     delta = (4098 * es / ((T_C.magnitude + 237.3) ** 2))
     gamma = 0.000665 * P.to(ureg.kPa)
     
+    ln_term = np.log(67.8 * 10 - 5.42)
+    u2 = u10_total * (4.87 / ln_term)
