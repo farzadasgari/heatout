@@ -46,4 +46,7 @@ def compute_penman_monteith_et0(
     es = (0.6108 * np.exp(17.27 * T_C.magnitude / (T_C.magnitude + 237.3))) * ureg.kPa
     ea = (0.6108 * np.exp(17.27 * Td_C.magnitude / (Td_C.magnitude + 237.3))) * ureg.kPa
     es_ea = es - ea
+
+    delta = (4098 * es / ((T_C.magnitude + 237.3) ** 2))
+    gamma = 0.000665 * P.to(ureg.kPa)
     
