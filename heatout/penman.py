@@ -43,3 +43,7 @@ def compute_penman_monteith_et0(
     if dates is not None and len(dates) != lengths[0]:
         raise ValueError("Dates array must match the length of other inputs.")
     
+    es = (0.6108 * np.exp(17.27 * T_C.magnitude / (T_C.magnitude + 237.3))) * ureg.kPa
+    ea = (0.6108 * np.exp(17.27 * Td_C.magnitude / (Td_C.magnitude + 237.3))) * ureg.kPa
+    es_ea = es - ea
+    
