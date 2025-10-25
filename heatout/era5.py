@@ -16,7 +16,7 @@ aoi = ee.Geometry.Polygon(coordinates, proj='EPSG:4326', geodesic=False)
 
 dataset = ee.ImageCollection(collection)
 
-start_date = '2016-01-01'
+start_date = '1950-01-01'
 end_date = '2025-01-01'
 
 start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
