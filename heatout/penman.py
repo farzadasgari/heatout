@@ -52,3 +52,7 @@ def compute_penman_monteith_et0(
     
     ln_term = np.log(67.8 * 10 - 5.42)
     u2 = u10_total * (4.87 / ln_term)
+
+    Rn_sw_daily = Rn_sw * (3600 * 24)
+    Rn_lw_daily = Rn_lw * (3600 * 24)
+    Rn_daily = Rn_sw_daily + Rn_lw_daily
