@@ -25,4 +25,10 @@ def compute_penman_monteith_et0(
         np.asarray(net_thermal_radiation)
     ]
 
+    lengths = [len(arr) for arr in inputs]
+    if len(set(lengths)) > 1:
+        raise ValueError("All input arrays must have the same length.")
+    if dates is not None and len(dates) != lengths[0]:
+        raise ValueError("Dates array must match the length of other inputs.")
+
     
