@@ -26,17 +26,18 @@ def compute_penman_monteith_et0(
             return value
         return value * default_unit
     
-    inputs = [
-        np.asarray(temperature),
-        np.asarray(dewpoint_temperature),
-        np.asarray(u_wind_10m),
-        np.asarray(v_wind_10m),
-        np.asarray(surface_pressure),
-        np.asarray(net_solar_radiation),
-        np.asarray(net_thermal_radiation)
-    ]
+    T = to_quantity(temperature, ureg.kelvin)
+    Td = to_quantity(dewpoint_temperature, ureg.kelvin)
+    u10 = to_quantity(u_wind_10m, ureg.meter / ureg.second)
+    v10 = to_quantity(v_wind_10m, ureg.meter / ureg.second)
+    P = to_quantity(surface_pressure, ureg.pascal)
+    Rn_sw = to_quantity(net_solar_radiation, ureg.watt / ureg.meter**2)
+    Rn_lw = to_quantity(net_thermal_radiation, ureg.watt / ureg.meter**2)
 
-    lengths = [len(arr) for arr in inputs]
+    T_C = T.to(ureg.degC)
+    Td_C = Td.to(ureg.degC)
+
+    lengths = [len(np.asarray(q.magnitude)) for q in [T, Td, u10, v10, P, Rn_sw, Rn_lw]]
     if len(set(lengths)) > 1:
         raise ValueError("All input arrays must have the same length.")
     if dates is not None and len(dates) != lengths[0]:
