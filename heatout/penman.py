@@ -1,7 +1,12 @@
 import numpy as np
 import pandas as pd
-from typing import Optional, Union
+from typing import Optional, Union, Any
 from numpy.typing import ArrayLike
+from pint import UnitRegistry
+
+ureg = UnitRegistry()
+ureg.setup_matplotlib()
+Quantity = ureg.Quantity
 
 def compute_penman_monteith_et0(
     temperature: ArrayLike,
@@ -12,8 +17,14 @@ def compute_penman_monteith_et0(
     net_solar_radiation: ArrayLike,
     net_thermal_radiation: ArrayLike,
     dates: Optional[ArrayLike] = None,
-    output_path: Optional[str] = None
+    output_path: Optional[str] = None,
+    units: Optional[str] = None,
 ) -> np.ndarray:
+
+    def to_quantity(value, default_unit):
+        if isinstance(value, Quantity):
+            return value
+        return value * default_unit
     
     inputs = [
         np.asarray(temperature),
@@ -30,5 +41,4 @@ def compute_penman_monteith_et0(
         raise ValueError("All input arrays must have the same length.")
     if dates is not None and len(dates) != lengths[0]:
         raise ValueError("Dates array must match the length of other inputs.")
-
     
