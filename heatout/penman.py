@@ -14,4 +14,15 @@ def compute_penman_monteith_et0(
     dates: Optional[ArrayLike] = None,
     output_path: Optional[str] = None
 ) -> np.ndarray:
-    pass
+    
+    inputs = [
+        np.asarray(temperature),
+        np.asarray(dewpoint_temperature),
+        np.asarray(u_wind_10m),
+        np.asarray(v_wind_10m),
+        np.asarray(surface_pressure),
+        np.asarray(net_solar_radiation),
+        np.asarray(net_thermal_radiation)
+    ]
+
+    
