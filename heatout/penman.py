@@ -56,3 +56,5 @@ def compute_penman_monteith_et0(
     Rn_sw_daily = Rn_sw * (3600 * 24)
     Rn_lw_daily = Rn_lw * (3600 * 24)
     Rn_daily = Rn_sw_daily + Rn_lw_daily
+
+    G = 0 * ureg.megajoule / ureg.meter**2 / ureg.day
