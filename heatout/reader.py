@@ -1,4 +1,9 @@
 import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from config import *
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -65,16 +70,7 @@ def merge_csv_data(root_dir: str = '../dataset/era5/csv', output_file: str = '..
     final_df = pd.DataFrame(data)
     final_df = final_df.sort_values('Date').reset_index(drop=True)
     
-    expected_columns = [
-        'Date', 'temperature_2m', 'lake_total_layer_temperature',
-        'lake_mix_layer_temperature', 'lake_bottom_temperature',
-        'lake_ice_temperature',
-        'evaporation_from_bare_soil_sum', 'evaporation_from_vegetation_transpiration_sum',
-        'potential_evaporation_sum', 'total_precipitation_sum', 'snowfall_sum',
-        'dewpoint_temperature_2m', 'surface_pressure',
-        'surface_solar_radiation_downwards_sum', 'u_component_of_wind_10m',
-        'v_component_of_wind_10m'
-    ]
+    expected_columns = ["Date"] + bands
     final_df = final_df[expected_columns]
     
     final_df.to_csv(output_path, index=False)
